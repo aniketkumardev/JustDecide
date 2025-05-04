@@ -1,0 +1,21 @@
+# DEPENDENCIES
+node_modules/
+
+# LOG FILES
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ENVIRONMENT VARIABLES
+.env
+
+# OS FILES
+.DS_Store
+Thumbs.db
+
+# OPTIONAL:
+coverage/           # IF USING CODE COVERAGE TOOLS
+dist/               # IF YOU BUILD FRONTEND CODE INTO A DIST FOLDER
+build/              # FOR COMPILED OUTPUT
+*.local             # LOCAL CONFIG FILES

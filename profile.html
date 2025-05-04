@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>profile-edit</title>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="new.css">
+  <link rel="stylesheet" href="header.css">
+  <style>
+    .profile {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 30px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile h2 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .profile p {
+      display: block;
+      margin-top: 15px;
+    }
+
+    .profile span {
+      display: inline-block;
+      width: 350px;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .edit-btn {
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .save-btn:hover {
+      background-color: #45A049;
+    }
+
+    .profile-edit {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 30px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-edit h2 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .profile-edit label {
+      display: block;
+      margin-top: 15px;
+    }
+
+    .profile-edit input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .save-btn {
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .save-btn:hover {
+      background-color: #45A049;
+    }
+
+    .show {
+      display: block;
+    }
+
+    .not-show {
+      display: none;
+    }
+
+    .logout-btn {
+      float: right;
+      background-color: #0A6EFF;
+      color: #fff;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .logout-btn:hover {
+      background-color: 004FCC;
+      transform: scale(1.1);
+      text-decoration: underline;
+    }
+
+    .blur {
+      filter: blur(4px);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Modal Background */
+    .modal {
+      display: none;
+      /* Hidden by default */
+      position: fixed;
+      /* Stay in place */
+      z-index: 1;
+      /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%;
+      /* Full width */
+      height: 100%;
+      /* Full height */
+      background-color: rgba(0, 0, 0, 0.4);
+      /* Black w/ opacity */
+      overflow: auto;
+      /* Enable scroll if needed */
+    }
+
+    /* Modal Content */
+    .modal-content {
+      background-color: white;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 40%;
+      /* Could be more or less, depending on screen size */
+      text-align: center;
+      border-radius: 8px;
+    }
+
+    /* Close Button */
+    .close-btn {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close-btn:hover,
+    .close-btn:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn-secondary {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      margin-top: 10px;
+      margin-left: 10px;
+      text-decoration: none;
+      display: inline-block;
+      color: #ffffff;
+      background: transparent;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h2 class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
+      <i class='bx bxl-xing'></i>Just Decide
+    </h2>    
+    <nav>
+      <a href="index.html">🏠 HOME</a>
+      <img class="open-svg" src="open.svg" alt="">
+      <a href="just-decide.html">Try Just Decide</a>
+      <a href="resources.html">📚 RESOURCES</a>
+      <a href="contact.html">✉️ CONTACT</a>
+      <a href="daily-planner.html">🗓️ DAILY PLANNER</a>
+      <!-- <a href="task-manager.html">TASK MANAGER</a> -->
+    </nav>
+    <div class="buttons">
+      <!-- <a href="login.html" class="btn-secondary">Login</a> -->
+      <a href="profile.html" class="btn-primary">Profile</a>
+    </div>
+  </header>
+
+  <section>
+    <div class="profile show">
+      <h2>Your Profile</h2>
+      <button onclick="logout()" style="float: right;">Logout</button>
+      <p>Username: <span class="username"></span></p>
+
+      <p>Your Email: <span class="email"></span></p>
+
+      <p>Bio: <span class="bio"></span></p>
+
+      <button class="edit-btn">Edit Profile</button>
+    </div>
+
+    <div class="profile-edit not-show">
+      <h2>Your Profile</h2>
+      <label for="name">Name</label>
+      <input type="text" id="name" placeholder="Enter your name">
+
+      <label for="email">Enter Your Email</label>
+      <input type="email" id="email" placeholder="Enter your email">
+
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter your email">
+
+      <label for="bio">Bio</label>
+      <input type="text" id="bio" placeholder="A short description about yourself">
+
+      <button class="save-btn">Save Profile</button>
+
+    </div>
+  </section>
+  <div id="successModal" class="modal">
+    <div class="modal-content">
+      <!-- <span class="close-btn" onclick="closeModal()">&times;</span> -->
+      <h2>You are Not Logged In!</h2>
+      <p style="margin-top: 10px;">Please login To Continue</p>
+      <a href="login.html" class="btn-secondary" style="background-color: #0A6EFF;">Login</a>
+    </div>
+  </div>
+  <script src="profile_static/profile.js"></script>
+</body>
+
+</html>

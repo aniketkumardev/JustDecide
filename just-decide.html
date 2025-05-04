@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Just Decide</title>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f5f7fb;
+      color: #333;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      padding: 5px 50px;
+      /* Reduced height by 15px */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: #444;
+      font-weight: 500;
+    }
+
+    .buttons a {
+      margin-left: 10px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid #ccc;
+      color: #444;
+    }
+
+    .btn-primary {
+      background: #4CAF50;
+      color: white;
+      border: none;
+    }
+
+
+    .page-content {
+      display: flex;
+      padding-top: 85px;
+      /* Previously 100px → now 85px */
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #1e1e2f;
+      color: white;
+      height: calc(100vh - 65px);
+      /* Previously 80px → now 65px */
+      position: sticky;
+      top: 65px;
+      /* Header height */
+      overflow-y: auto;
+      transition: width 0.3s;
+    }
+
+    .sidebar.collapsed {
+      width: 60px;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      padding: 0;
+      cursor: pointer;
+      margin: 0;
+    }
+
+    .sidebar-menu li {
+      padding: 15px 20px;
+    }
+
+    .sidebar-menu a {
+      text-decoration: none;
+      color: white;
+      font-size: 16px;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sidebar-menu a:hover {
+      background-color: #333354;
+      border-radius: 8px;
+    }
+
+    /* Toggle Button */
+    .sidebar-toggle {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      padding: 10px 20px;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    /* Main content */
+    .main-content {
+      flex: 1;
+      padding: 20px;
+      transition: margin-left 0.3s;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    }
+
+    h1,
+    h2 {
+      color: #222;
+      margin-bottom: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+      font-size: 15px;
+      resize: none;
+      background-color: #fafafa;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+      margin: 8px 4px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .faq {
+      margin-top: 40px;
+    }
+
+    .accordion {
+      background-color: #f0f0f0;
+      border: none;
+      color: #333;
+      cursor: pointer;
+      padding: 14px 20px;
+      width: 100%;
+      text-align: left;
+      border-radius: 8px;
+      outline: none;
+      margin-bottom: 10px;
+      transition: background 0.2s ease;
+    }
+
+    .accordion:hover {
+      background-color: #e3e3e3;
+    }
+
+    .panel {
+      padding: 0 20px;
+      background-color: white;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.2s ease-out;
+      border-left: 4px solid #4CAF50;
+      margin-bottom: 15px;
+    }
+
+    #output {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    .suggestion-result {
+      display: none;
+    }
+
+  header {
+    height: 65px; /* 15px less than before */
+    background-image: linear-gradient(#EEEEFF, #CBC7FF);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 44px 70px;
+    border-bottom: 1px solid #eee;
+    animation: fadeIn 1s ease-out;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+
+  .logo {
+    font-size: 24px;
+    font-weight: 800;
+    color: #001233;
+  }
+
+  nav a {
+    margin: 0 15px;
+    color: #111;
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+  }
+
+  nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background-color: #0A6EFF;
+    left: 0;
+    bottom: -4px;
+    transition: width 0.3s ease;
+  }
+
+  nav a:hover::after {
+    width: 100%;
+  }
+
+  .open-svg {
+    margin-bottom: -6px;
+    margin-right: -20px;
+  }
+
+  .buttons a {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-left: 10px;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-primary {
+    background-color: #0A6EFF;
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background-color: #004FCC;
+  }
+
+  .btn-secondary {
+    color: #111;
+    border: 1px solid #ccc;
+    background: transparent;
+  }
+
+  .btn-secondary:hover {
+    background-color: #f1f1f1;
+  }
+    
+  .blur {
+      filter: blur(4px);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Modal Background */
+    .modal {
+      display: none;
+      /* Hidden by default */
+      position: fixed;
+      /* Stay in place */
+      z-index: 1;
+      /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%;
+      /* Full width */
+      height: 100%;
+      /* Full height */
+      background-color: rgba(0, 0, 0, 0.4);
+      /* Black w/ opacity */
+      overflow: auto;
+      /* Enable scroll if needed */
+    }
+
+    /* Modal Content */
+    .modal-content {
+      background-color: white;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 40%;
+      /* Could be more or less, depending on screen size */
+      text-align: center;
+      border-radius: 8px;
+    }
+
+    /* Close Button */
+    .close-btn {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close-btn:hover,
+    .close-btn:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header>
+    <h2 class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
+      <i class='bx bxl-xing'></i>Just Decide
+    </h2>
+    <nav>
+      <a href="index.html">🏠 HOME</a>
+      <a href="just-decide.html">Try Just Decide</a>
+      <a href="resources.html">📚 RESOURCES</a>
+      <a href="contact.html">✉️ CONTACT</a>
+      <a href="daily-planner.html">🗓️ DAILY PLANNER</a>
+    </nav>
+    <div class="buttons">
+      <a href="login.html" class="btn-secondary">Login</a>
+      <a href="profile.html" class="btn-primary">Profile</a>
+    </div>
+  </header>
+
+  <!-- Page Content -->
+  <div class="page-content">
+
+    <!-- Sidebar -->
+    <div class="sidebar collapsed" id="sidebar">
+      <button class="sidebar-toggle" onclick="toggleSidebar()">
+        <i class='bx bx-menu'></i>
+      </button>
+      <ul class="sidebar-menu">
+        
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="container">
+        <h1>Welcome to the Just Decide</h1>
+        <p>Use the tools below to record decisions, analyze options, and manage your choices effectively.</p>
+
+        <textarea id="Decision" rows="2" placeholder="Type Your Decision Here..."></textarea>
+        <textarea class="option" rows="1" placeholder="Option 1..."></textarea>
+        <textarea class="option" rows="1" placeholder="Option 2..."></textarea>
+
+        <div>
+          <button class="to-create-new-option">Add Option</button>
+          <button class="to-suggest-new-option">Suggest Option</button>
+        </div>
+
+        <div>
+          <button class="get-help">Get help in choosing the best option</button>
+        </div>
+
+        <div class="suggestion-result"></div>
+
+        <!-- <h2 id="output">Waiting for file content...</h2> -->
+
+        <div class="faq">
+          <h2>Frequently Asked Questions</h2>
+          <button class="accordion">How does the Just Decide work?</button>
+          <div class="panel">
+            <p>You input your decision and various options. Our AI powered Decision making Tool help you evaluate based on priority, effectiveness, or
+              custom criteria.</p>
+          </div>
+
+          <button class="accordion">Can I save my decisions?</button>
+          <div class="panel">
+            <p>Yes, your are automatically saved on our server and you can view your recent made decisionson the sidebar. All data is stored on the server side.</p>
+          </div>
+
+          <button class="accordion">Is my data secure?</button>
+          <div class="panel">
+            <p>All information is stored in our server. We do not transmit or access your data.We just keep it for your reference purpose.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="successModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h2>Decision Lacking At : .</h2>
+      <p>Options Provided/Suggested : .</p>
+      <p>Suggestion Provided : .</p>
+    </div>
+  </div>
+
+  <!-- Script -->
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("collapsed");
+    }
+
+    const accordions = document.querySelectorAll(".accordion");
+    accordions.forEach(acc => {
+      acc.addEventListener("click", function () {
+        this.classList.toggle("active");
+        const panel = this.nextElementSibling;
+        if (panel.style.maxHeight) {
+          panel.style.maxHeight = null;
+        } else {
+          panel.style.maxHeight = panel.scrollHeight + "px";
+        }
+      });
+    });
+  </script>
+  <script src="script.js"></script>
+  <script src="chatbot_static/chatbot.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+  }
+  
+  body {
+    background-color: #fff;
+    color: #111;
+  }
+  
+  header {
+    background-image: linear-gradient(#EEEEFF, #CBC7FF);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    border-bottom: 1px solid #eee;
+    animation: fadeIn 1s ease-out;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: 800;
+    color: #001233;
+  }
+  
+  nav a {
+    margin: 0 15px;
+    color: #111;
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+  }
+  
+  nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background-color: #0A6EFF;
+    left: 0;
+    bottom: -4px;
+    transition: width 0.3s ease;
+  }
+  
+  nav a:hover::after {
+    width: 100%;
+  }
+  
+  .open-svg {
+    margin-bottom: -6px;
+    margin-right: -20px;
+  }
+  
+  .buttons a {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-left: 10px;
+    text-decoration: none;
+    display: inline-block;
+  }
+  
+  .btn-primary {
+    background-color: #0A6EFF;
+    color: #fff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #004FCC;
+  }
+  
+  .btn-secondary {
+    color: #111;
+    border: 1px solid #ccc;
+    background: transparent;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #f1f1f1;
+  }
+  

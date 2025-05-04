@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TASK MANAGER</title>
+  <link rel="stylesheet" href="new.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #ffffff;
+      color: #1a1a1a;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #0057FF;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    header .logo {
+      font-size: 28px;
+      font-weight: 800;
+    }
+    nav a {
+      color: white;
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .buttons a {
+      margin-left: 10px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background-color: white;
+      color: #0057FF;
+      font-weight: bold;
+    }
+    .btn-secondary {
+      background-color: #003EAA;
+      color: white;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      padding: 30px;
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .planner {
+      padding-right: 10px;
+    }
+    .calendar-container {
+      background: #f0f4ff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .calendar-container input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    .calendar-container .timer-section {
+      margin-top: 20px;
+    }
+    .calendar-container .timer-section label,
+    .calendar-container .timer-section input[type="time"] {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    .calendar-container input[type="time"] {
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    .day {
+      background: linear-gradient(to bottom right, #F0F4FF, #FFFFFF);
+      border-radius: 16px;
+      margin-bottom: 20px;
+      padding: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      transform: translateY(20px);
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards;
+      position: relative;
+      overflow: hidden;
+    }
+    .day::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      width: 80px;
+      height: 80px;
+      background: rgba(10, 110, 255, 0.1);
+      border-radius: 50%;
+      z-index: 0;
+    }
+    .day h3 {
+      margin: 0 0 10px;
+      color: #0057FF;
+      position: relative;
+      z-index: 1;
+    }
+    .todo-input {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+    .todo-input input[type="text"],
+    .todo-input input[type="time"] {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    .todo-input button {
+      background-color: #0057FF;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .todo-input button:hover {
+      background-color: #003EAA;
+    }
+    ul.task-list {
+      padding-left: 0;
+      margin-top: 10px;
+    }
+    ul.task-list li {
+      list-style: none;
+      background: #e0ecff;
+      margin-bottom: 8px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    ul.task-list li.completed {
+      text-decoration: line-through;
+      background: #c5dfff;
+    }
+    .reward-message {
+      text-align: center;
+      font-weight: 600;
+      margin-top: 30px;
+      font-size: 18px;
+      color: #0057FF;
+    }
+    .copy-btn {
+      margin-top: 10px;
+      background: #00b0ff;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+    }
+    .modal-content select {
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 6px;
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h2 class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
+      <i class='bx bxl-xing'></i>Just Decide
+    </h2>    
+    <nav>
+      <a href="index.html">HOME</a>
+      <a href="resources.html">RESOURCES</a>
+      <a href="#">CONTACT</a>
+      <a href="daily-planner.html">DAILY PLANNER</a>
+      <a href="task-manager.html">TASK MANAGER</a>
+    </nav>
+    <div class="buttons">
+      <a href="login.html" class="btn-secondary">Login</a>
+      <a href="profile.html" class="btn-primary">Profile</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="planner">
+      <h2>Weekly Plan</h2>
+      <div id="task-sections"></div>
+      <div class="reward-message" id="reward">Complete all tasks to earn your reward!</div>
+    </div>
+    <div class="calendar-container">
+      <label for="calendar"><strong>Select Date:</strong></label>
+      <input type="date" id="calendar">
+      <div class="timer-section">
+        <label for="global-timer"><strong>Set Global Timer:</strong></label>
+        <input type="time" id="global-timer">
+      </div>
+    </div>
+  </div>
+
+  <div id="copyModal" class="modal">
+    <div class="modal-content">
+      <h3>Copy tasks to:</h3>
+      <select id="targetDaySelect"></select>
+      <br><br>
+      <button onclick="confirmCopy()">Copy</button>
+    </div>
+  </div>
+
+  <script>
+    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    const taskSections = document.getElementById("task-sections");
+    let copyFrom = '';
+
+    days.forEach(day => {
+      const div = document.createElement("div");
+      div.className = "day";
+      div.id = `day-${day}`;
+      div.innerHTML = `
+        <h3>${day}</h3>
+        <div class="todo-input">
+          <input type="text" id="input-${day}" placeholder="Task">
+          <input type="time" id="time-${day}">
+          <button onclick="addTask('${day}')">Add</button>
+        </div>
+        <ul class="task-list" id="list-${day}"></ul>
+        <button class="copy-btn" onclick="showCopyModal('${day}')">Copy Day</button>
+      `;
+      taskSections.appendChild(div);
+    });
+
+    const modal = document.getElementById("copyModal");
+    const targetDaySelect = document.getElementById("targetDaySelect");
+
+    function showCopyModal(sourceDay) {
+      copyFrom = sourceDay;
+      targetDaySelect.innerHTML = '';
+      days.forEach(day => {
+        if (day !== sourceDay) {
+          const opt = document.createElement("option");
+          opt.value = day;
+          opt.textContent = day;
+          targetDaySelect.appendChild(opt);
+        }
+      });
+      modal.style.display = 'flex';
+    }
+
+    function confirmCopy() {
+      const targetDay = targetDaySelect.value;
+      const sourceTasks = document.querySelectorAll(`#list-${copyFrom} li`);
+      const targetList = document.getElementById(`list-${targetDay}`);
+      sourceTasks.forEach(task => {
+        const newTask = task.cloneNode(true);
+        targetList.appendChild(newTask);
+      });
+      modal.style.display = 'none';
+      updateReward();
+    }
+
+    function addTask(day) {
+      const input = document.getElementById(`input-${day}`);
+      const timeInput = document.getElementById(`time-${day}`);
+      const list = document.getElementById(`list-${day}`);
+      const dayBox = document.getElementById(`day-${day}`);
+
+      if (input.value.trim() === '') return;
+
+      const li = document.createElement("li");
+      const timeValue = timeInput.value ? ` (${timeInput.value})` : '';
+      li.innerHTML = `
+        <span>${input.value}${timeValue}</span>
+        <input type="checkbox" onclick="toggleTask(this, '${day}')">
+      `;
+
+      list.appendChild(li);
+      input.value = '';
+      timeInput.value = '';
+      dayBox.classList.add("expanded");
+      updateReward();
+    }
+
+    function toggleTask(checkbox, day) {
+      const li = checkbox.parentElement;
+      li.classList.toggle("completed");
+      updateReward();
+    }
+
+    function updateReward() {
+      const allTasks = document.querySelectorAll("ul.task-list li");
+      const completed = document.querySelectorAll("ul.task-list li.completed");
+
+      const rewardMsg = document.getElementById("reward");
+      if (allTasks.length > 0 && completed.length === allTasks.length) {
+        rewardMsg.textContent = `🎉 Great job! You’ve completed all your tasks this week! 🎉 (Total completed: ${completed.length})`;
+      } else {
+        rewardMsg.textContent = `Completed ${completed.length} out of ${allTasks.length} tasks. Keep going to earn your reward!`;
+      }
+    }
+  </script>
+</body>
+</html>

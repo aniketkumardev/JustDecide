@@ -1,0 +1,36 @@
+Day: Monday
+Task: adndn
+Why: sndndnbdbbdd dndndj djkdnnd
+Status: Completed
+
+Day: Tuesday
+Task: d
+Why: fshdhhd
+Status: Completed
+
+Day: Wednesday
+Task: g
+Why: h
+Status: Completed
+
+Day: Thursday
+Task: j
+Why: k
+Status: Completed
+
+Day: Friday
+Task: y
+Why: er
+Status: Completed
+
+Day: Saturday
+Task: w
+Why: r
+Status: Completed
+
+Day: Sunday
+Task: 
+Why: bgf
+Status: Completed
+
+
